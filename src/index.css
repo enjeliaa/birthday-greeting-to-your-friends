@@ -1,0 +1,563 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+/* ══════════════════════════════
+   VARIABLES
+══════════════════════════════ */
+:root {
+  --cream: #fdf8f2;
+  --warm: #f5ede0;
+  --gold: #c8a96e;
+  --gold-light: #e8d5b0;
+  --gold-dark: #9e7c42;
+  --text: #2c2118;
+  --text-soft: #7a6652;
+  --text-muted: #b8a89a;
+  --white: #ffffff;
+  --shadow: rgba(44, 33, 24, 0.08);
+  --shadow-md: rgba(44, 33, 24, 0.14);
+}
+
+/* ══════════════════════════════
+   RESET & BASE
+══════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--cream);
+  color: var(--text);
+  font-family: 'Jost', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  outline: none;
+}
+
+/* ══════════════════════════════
+   APP WRAPPER
+══════════════════════════════ */
+.app {
+  position: relative;
+  min-height: 100vh;
+}
+
+.app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 10%, rgba(200,169,110,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 85% 90%, rgba(200,169,110,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(245,237,224,0.4) 0%, transparent 80%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ══════════════════════════════
+   MUSIC BUTTON
+══════════════════════════════ */
+.music-btn {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 999;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  background: rgba(253, 248, 242, 0.92);
+  color: var(--gold-dark);
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px var(--shadow-md);
+}
+.music-btn:hover,
+.music-btn:active {
+  background: var(--gold);
+  color: var(--white);
+  transform: scale(1.07);
+}
+.music-btn.playing {
+  animation: pulse-ring 2s ease-in-out infinite;
+}
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(200,169,110,0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(200,169,110,0); }
+}
+
+/* ══════════════════════════════
+   FADE-IN UTILITY
+══════════════════════════════ */
+.hero-section,
+.card-section,
+.cake-section {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+.hero-section.visible,
+.card-section.visible,
+.cake-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ══════════════════════════════
+   HERO SECTION
+══════════════════════════════ */
+.hero-section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 1.5rem 4rem;
+  gap: 2.5rem;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.hero-photo-wrapper {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-photo-ring {
+  position: absolute;
+  inset: -14px;
+  border-radius: 50%;
+  border: 1px solid var(--gold-light);
+  animation: spin-slow 22s linear infinite;
+}
+.hero-photo-ring::before,
+.hero-photo-ring::after {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--gold);
+  font-size: 0.7rem;
+}
+.hero-photo-ring::before {
+  content: '✦';
+  top: -9px;
+}
+.hero-photo-ring::after {
+  content: '✦';
+  bottom: -9px;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.hero-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--gold-light);
+  box-shadow: 0 8px 40px rgba(200,169,110,0.25), 0 2px 8px var(--shadow);
+}
+
+.hero-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  max-width: 500px;
+}
+
+.hero-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.hero-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2.8rem, 10vw, 5.5rem);
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  color: var(--text);
+  line-height: 1.1;
+}
+
+.hero-subtitle {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.1rem, 3.5vw, 1.5rem);
+  font-style: italic;
+  color: var(--gold-dark);
+  font-weight: 300;
+}
+
+.hero-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  margin: 0.25rem auto;
+}
+
+.hero-quote {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  color: var(--text-soft);
+  line-height: 1.85;
+  padding: 0 0.5rem;
+}
+
+/* ══════════════════════════════
+   BIRTHDAY CARD
+══════════════════════════════ */
+.card-section {
+  padding: 3rem 1.25rem 4rem;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  z-index: 1;
+}
+
+.card-envelope {
+  background: var(--white);
+  border: 1px solid var(--gold-light);
+  border-radius: 2px;
+  max-width: 580px;
+  width: 100%;
+  box-shadow: 0 12px 60px var(--shadow), 0 2px 8px rgba(200,169,110,0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-envelope::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, var(--gold-light), var(--gold), var(--gold-light));
+}
+
+.card-inner {
+  padding: clamp(2rem, 6vw, 3.5rem);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.card-ornament {
+  color: var(--gold);
+  font-size: 1rem;
+  letter-spacing: 0.6em;
+}
+
+.card-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.6rem, 5vw, 2rem);
+  font-weight: 400;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+
+.card-divider {
+  width: 70px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-light), transparent);
+}
+
+.card-message {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.8vw, 1.08rem);
+  color: var(--text-soft);
+  line-height: 1.95;
+  text-align: left;
+  width: 100%;
+}
+
+.card-signature {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--text-soft);
+  font-size: 1rem;
+  text-align: right;
+  width: 100%;
+  line-height: 1.7;
+}
+.card-signature strong {
+  color: var(--gold-dark);
+  font-style: normal;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+/* ══════════════════════════════
+   CAKE SECTION
+══════════════════════════════ */
+.cake-section {
+  padding: 3rem 1.5rem 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+  z-index: 1;
+}
+
+.cake-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.cake-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Candles */
+.candles {
+  display: flex;
+  gap: 9px;
+  align-items: flex-end;
+  position: relative;
+  z-index: 2;
+}
+
+.candle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.candle-body {
+  width: 10px;
+  height: 38px;
+  background: linear-gradient(to right, #f5d5a0, #e8b96e, #f5d5a0);
+  border-radius: 2px;
+  border: 1px solid #d4a45a;
+}
+
+.flame {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 16px;
+  background: radial-gradient(ellipse at bottom, #fff9c4 0%, #ffa726 60%, #e64a19 100%);
+  border-radius: 50% 50% 30% 30% / 60% 60% 40% 40%;
+  animation: flicker 1.1s ease-in-out infinite alternate;
+  box-shadow: 0 0 8px rgba(255,167,38,0.7), 0 0 20px rgba(255,167,38,0.3);
+}
+
+.flame-inner {
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 8px;
+  background: radial-gradient(ellipse, #ffffff, #fff9c4);
+  border-radius: 50%;
+}
+
+@keyframes flicker {
+  0%   { transform: translateX(-50%) scaleX(1)    scaleY(1)    rotate(-2deg); opacity: 1; }
+  100% { transform: translateX(-50%) scaleX(0.93) scaleY(0.95) rotate(2deg);  opacity: 0.88; }
+}
+
+/* Cake body */
+.cake-body { display: flex; flex-direction: column; align-items: center; }
+
+.cake-top {
+  width: 150px;
+  height: 32px;
+  background: linear-gradient(to bottom, #f9e4e4, #f0c8c8);
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #e8b0b0;
+  border-bottom: none;
+  position: relative;
+}
+.cake-top::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 10%; right: 10%;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, rgba(255,255,255,0.5) 0px, rgba(255,255,255,0.5) 6px, transparent 6px, transparent 12px);
+  border-radius: 50%;
+}
+
+.cake-middle {
+  width: 170px;
+  height: 48px;
+  background: linear-gradient(to bottom, #fdf0e0, #f5ddb0);
+  border: 1px solid var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.cake-middle::before,
+.cake-middle::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, rgba(200,169,110,0.3), transparent);
+}
+.cake-middle::before { top: 6px; }
+.cake-middle::after  { bottom: 6px; }
+
+.cake-decoration {
+  font-size: 0.8rem;
+  color: var(--gold-dark);
+  letter-spacing: 0.35em;
+}
+
+.cake-bottom {
+  width: 190px;
+  height: 48px;
+  background: linear-gradient(to bottom, #f0d5c8, #e8c0a8);
+  border: 1px solid #d4a898;
+  border-radius: 0 0 6px 6px;
+}
+
+.cake-plate {
+  width: 210px;
+  height: 11px;
+  background: linear-gradient(to bottom, #e8e0d8, #d4ccc4);
+  border-radius: 50%;
+  border: 1px solid #c8c0b8;
+  margin-top: 2px;
+  box-shadow: 0 6px 16px var(--shadow);
+}
+
+/* Buttons & wish */
+.blow-btn {
+  font-family: 'Jost', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  color: var(--gold-dark);
+  background: transparent;
+  border: 1px solid var(--gold-light);
+  padding: 0.8rem 2.2rem;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.blow-btn:hover,
+.blow-btn:active {
+  background: var(--gold);
+  color: var(--white);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(200,169,110,0.3);
+}
+
+.wish-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.1rem, 3.5vw, 1.4rem);
+  color: var(--gold-dark);
+  animation: wish-appear 0.8s ease forwards;
+  text-align: center;
+}
+
+@keyframes wish-appear {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to   { opacity: 1; transform: translateY(0)    scale(1); }
+}
+
+/* ══════════════════════════════
+   FOOTER
+══════════════════════════════ */
+.footer {
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  border-top: 1px solid var(--gold-light);
+  position: relative;
+  z-index: 1;
+}
+
+.footer-ornament {
+  color: var(--gold);
+  letter-spacing: 0.7em;
+  font-size: 0.75rem;
+}
+
+.footer-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--text-soft);
+}
+
+.footer-year {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+}
+
+/* ══════════════════════════════
+   RESPONSIVE — MOBILE FIRST
+══════════════════════════════ */
+@media (max-width: 480px) {
+  .hero-photo { width: 170px; height: 170px; }
+  .hero-photo-ring { inset: -12px; }
+  .card-inner { padding: 2rem 1.5rem; }
+  .blow-btn { width: 100%; max-width: 280px; }
+
+  .cake-top    { width: 130px; }
+  .cake-middle { width: 148px; }
+  .cake-bottom { width: 165px; }
+  .cake-plate  { width: 182px; }
+
+  .music-btn {
+    bottom: 1rem;
+    right: 1rem;
+    width: 42px;
+    height: 42px;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-photo { width: 145px; height: 145px; }
+  .hero-name  { font-size: 2.4rem; }
+}
