@@ -47,7 +47,7 @@ export default function MusicPlayer() {
     <>
       <audio
         ref={audioRef}
-        src="/music/Happy Birthday music.mp3"
+        src="/music/happy-birthday-music.mp3"
         loop
         preload="auto"
       />
